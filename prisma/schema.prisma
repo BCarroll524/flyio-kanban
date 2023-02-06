@@ -36,3 +36,39 @@ model Note {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
 }
+
+model Board {
+  id      String   @id @default(cuid())
+  name    String
+  columns String[]
+  tasks   Task[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Task {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  column      String
+
+  subtasks Subtask[]
+  board    Board     @relation(fields: [boardId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  boardId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subtask {
+  id        String  @id @default(cuid())
+  title     String
+  completed Boolean @default(false)
+
+  task   Task   @relation(fields: [taskId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  taskId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

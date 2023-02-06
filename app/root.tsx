@@ -1,4 +1,5 @@
-import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { ActionArgs, LinksFunction, MetaFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Links,
@@ -9,11 +10,22 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import { getUser } from "./session.server";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
+import fontStylesheetUrl from "./styles/font.css";
+import { badRequest } from "remix-utils";
+import invariant from "tiny-invariant";
+import { z } from "zod";
+import { addNewBoard } from "./models/board.server";
+import { getErrorMessage } from "./utils";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [
+    { rel: "stylesheet", href: tailwindStylesheetUrl },
+    {
+      rel: "stylesheet",
+      href: fontStylesheetUrl,
+    },
+  ];
 };
 
 export const meta: MetaFunction = () => ({
@@ -21,12 +33,6 @@ export const meta: MetaFunction = () => ({
   title: "Flyio Kanban",
   viewport: "width=device-width,initial-scale=1",
 });
-
-export async function loader({ request }: LoaderArgs) {
-  return json({
-    user: await getUser(request),
-  });
-}
 
 export default function App() {
   return (
@@ -44,3 +50,42 @@ export default function App() {
     </html>
   );
 }
+
+export const action = async ({ request }: ActionArgs) => {
+  try {
+    const form = new URLSearchParams(await request.text());
+
+    console.log(form);
+
+    const name = form.get("name");
+    const columnsStr = form.get("new-columns");
+
+    invariant(name, "name is required");
+    invariant(columnsStr, "columns is required");
+
+    const schema = z.array(
+      z.object({
+        key: z.string(),
+        value: z.string(),
+      })
+    );
+
+    const newColumns = schema.safeParse(JSON.parse(columnsStr));
+
+    if (!newColumns.success) {
+      throw new Error("Invalid multi inputs schema");
+    }
+
+    const board = await addNewBoard({
+      name,
+      columns: newColumns.data.map((val) => val.value),
+    });
+
+    return redirect(`/${board.id}`);
+  } catch (error: unknown) {
+    const message = getErrorMessage(error);
+    return badRequest({
+      message,
+    });
+  }
+};

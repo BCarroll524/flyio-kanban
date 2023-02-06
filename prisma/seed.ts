@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { data } from "./data";
 
 const prisma = new PrismaClient();
 
@@ -39,6 +40,31 @@ async function seed() {
       userId: user.id,
     },
   });
+
+  for (const board of data.boards) {
+    const columns = board.columns.map((column) => column.name);
+    await prisma.board.create({
+      data: {
+        name: board.name,
+        columns,
+        tasks: {
+          create: board.columns.flatMap((column) =>
+            column.tasks.map((task) => ({
+              title: task.title,
+              description: task.description,
+              column: task.status,
+              subtasks: {
+                create: task.subtasks.map((subtask) => ({
+                  title: subtask.title,
+                  completed: subtask.isCompleted,
+                })),
+              },
+            }))
+          ),
+        },
+      },
+    });
+  }
 
   console.log(`Database has been seeded. 🌱`);
 }
