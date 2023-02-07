@@ -47,3 +47,7 @@ export function getErrorMessage(error: unknown) {
   if (error instanceof Error) return error.message;
   return "Unknown Error";
 }
+
+export function validateEmail(email: unknown): email is string {
+  return typeof email === "string" && email.length > 3 && email.includes("@");
+}
