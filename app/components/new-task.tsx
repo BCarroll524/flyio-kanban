@@ -10,7 +10,7 @@ import { H2 } from "./typography";
 const NewTaskModal = ({ columns }: { columns: string[] }) => {
   return (
     <Dialog.Root>
-      <Dialog.Trigger className="rounded-full bg-purple px-[18px] py-2 text-sm font-bold text-white hover:bg-purple-hover">
+      <Dialog.Trigger className="rounded-full bg-purple px-[18px] py-2 text-sm font-bold text-white outline-offset-2 outline-purple hover:bg-purple-hover">
         Add new task
       </Dialog.Trigger>
       <Dialog.Portal>

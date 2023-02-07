@@ -48,9 +48,9 @@ model Board {
 }
 
 model Task {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
-  description String
+  description String?
   column      String
 
   subtasks Subtask[]

@@ -9,7 +9,7 @@ const addNewTask = async ({
 }: {
   boardId: string;
   title: string;
-  description: string;
+  description?: string;
   column: string;
   subtasks: string[];
 }) => {
@@ -37,7 +37,7 @@ const editTask = async ({
 }: {
   taskId: string;
   title: string;
-  description: string;
+  description?: string;
   column: string;
   deletedSubtasks: string[]; // subtask ids
   currentSubtasks: { id: string; title: string }[];

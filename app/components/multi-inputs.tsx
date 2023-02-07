@@ -1,5 +1,5 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./button";
 
 const getRandom = () => (Math.random() + 1).toString(36).substring(7);
@@ -37,6 +37,25 @@ function MultiInputs({
     !currentInputs?.length ? [{ key: getRandom(), value: "" }] : []
   );
 
+  // if has oldInputs => gt 0
+  // if no oldInputs => 1
+
+  useEffect(() => {
+    const index = newInputs.length - 1;
+    let element: HTMLElement | null = null;
+    if (currentInputs?.length && newInputs.length) {
+      // find element and auto focus
+      element = document.getElementById(`new-input-${index}`);
+    } else if (!currentInputs?.length && newInputs.length > 1) {
+      // find element and auto focus
+      element = document.getElementById(`new-input-${index}`);
+    }
+
+    if (element) {
+      element.focus();
+    }
+  }, [newInputs.length, currentInputs]);
+
   return (
     <div className="flex flex-col space-y-3">
       <label
@@ -51,7 +70,6 @@ function MultiInputs({
             type="text"
             name={name}
             id={name}
-            defaultValue={input.value}
             onChange={(e) => {
               setOldInputs((prev) =>
                 prev.map((item, i) => {
@@ -68,6 +86,7 @@ function MultiInputs({
           />
           <button
             type="button"
+            tabIndex={-1}
             onClick={() => {
               setOldInputs((prev) => prev.filter((_, i) => i !== index));
               setDeletedInputs((prev) => [...prev, input.key]);
@@ -84,8 +103,7 @@ function MultiInputs({
           <input
             type="text"
             name={name}
-            id={name}
-            defaultValue={input.value}
+            id={`new-input-${index}`}
             onChange={(e) => {
               setNewInputs((prev) =>
                 prev.map((item, i) => {
@@ -102,6 +120,7 @@ function MultiInputs({
           />
           <button
             type="button"
+            tabIndex={-1}
             onClick={() => {
               setNewInputs((prev) => prev.filter((_, i) => i !== index));
             }}
@@ -128,9 +147,11 @@ function MultiInputs({
         type="button"
         variant="secondary"
         size="sm"
-        onClick={() =>
-          setNewInputs((prev) => [...prev, { key: getRandom(), value: "" }])
-        }
+        onClick={() => {
+          const elements = document.getElementById("new-input");
+          console.log(elements);
+          setNewInputs((prev) => [...prev, { key: getRandom(), value: "" }]);
+        }}
       >
         {cta}
       </Button>

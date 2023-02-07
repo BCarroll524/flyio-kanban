@@ -25,7 +25,7 @@ const Task = ({
 }: {
   id: string;
   title: string;
-  description: string;
+  description: string | null;
   subtasks: {
     id: string;
     title: string;
@@ -143,7 +143,7 @@ const EditTask = ({
 }: {
   id: string;
   title: string;
-  description: string;
+  description: string | null;
   subtasks: {
     id: string;
     title: string;
@@ -167,7 +167,7 @@ const EditTask = ({
       <TextArea
         label="Description"
         name="description"
-        defaultValue={description}
+        defaultValue={description ?? ""}
         placeholder="Enter task description"
       />
 

@@ -94,12 +94,11 @@ export const action = async ({ request, params }: ActionArgs) => {
 
     if (action === "new-task") {
       const title = form.get("name");
-      const description = form.get("description");
+      const description = form.get("description") || undefined;
       const column = form.get("column");
       const subtasks = form.getAll("subtasks");
 
       invariant(title, "title is required");
-      invariant(description, "description is required");
       invariant(column, "column is required");
       invariant(subtasks, "subtasks is required");
 
@@ -117,7 +116,7 @@ export const action = async ({ request, params }: ActionArgs) => {
     if (action === "edit-task") {
       const taskId = form.get("taskId");
       const title = form.get("name");
-      const description = form.get("description");
+      const description = form.get("description") || undefined;
       const column = form.get("column");
       const deletedSubtasks = form.getAll("deleted-subtasks");
       const oldSubtasksStr = form.get("old-subtasks");
@@ -125,7 +124,6 @@ export const action = async ({ request, params }: ActionArgs) => {
 
       invariant(taskId, "taskId is required");
       invariant(title, "title is required");
-      invariant(description, "description is required");
       invariant(column, "column is required");
       invariant(deletedSubtasks, "deletedSubtasks is required");
       invariant(oldSubtasksStr, "oldSubtasks is required");
