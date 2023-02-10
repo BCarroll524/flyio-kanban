@@ -96,4 +96,16 @@ const completeSubtask = (subtaskId: string, completed: boolean) => {
   });
 };
 
-export { addNewTask, editTask, deleteTask, completeSubtask };
+const moveTask = async (taskId: string, column: string) => {
+  console.log({ taskId, column });
+  return db.task.update({
+    where: {
+      id: taskId,
+    },
+    data: {
+      column,
+    },
+  });
+};
+
+export { addNewTask, editTask, deleteTask, completeSubtask, moveTask };

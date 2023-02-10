@@ -17,6 +17,8 @@ import invariant from "tiny-invariant";
 import { z } from "zod";
 import { addNewBoard } from "./models/board.server";
 import { getErrorMessage } from "./utils";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 export const links: LinksFunction = () => {
   return [
@@ -42,7 +44,9 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
-        <Outlet />
+        <DndProvider backend={HTML5Backend}>
+          <Outlet />
+        </DndProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

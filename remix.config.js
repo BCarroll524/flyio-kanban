@@ -7,4 +7,13 @@ module.exports = {
   future: {
     v2_routeConvention: true,
   },
+  serverDependenciesToBundle: [
+    "react-dnd",
+    "react-dnd-html5-backend",
+    "react-dnd-touch-backend",
+    "@react-dnd/invariant",
+    "dnd-core",
+    "@react-dnd/shallowequal",
+    "@react-dnd/asap",
+  ],
 };

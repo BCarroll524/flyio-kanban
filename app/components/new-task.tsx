@@ -6,20 +6,24 @@ import { MultiInputs } from "./multi-inputs";
 import { TextArea } from "./text-area";
 import { TextInput } from "./text-input";
 import { H2 } from "./typography";
+import { PlusIcon } from "@heroicons/react/24/solid";
 
 const NewTaskModal = ({ columns }: { columns: string[] }) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger className="rounded-full bg-purple px-[18px] py-2 text-sm font-bold text-white outline-offset-2 outline-purple hover:bg-purple-hover">
-        Add new task
+        <span className="sm:hidden">
+          <PlusIcon className="h-5 w-5 fill-white stroke-white stroke-2" />
+        </span>
+        <span className="hidden sm:block">Add new task</span>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Dialog.Content className="">
+        <div className="absolute inset-0 flex items-center justify-center px-4">
+          <Dialog.Content className="w-full">
             <Form
               method="post"
-              className="w-[480px] space-y-6 rounded-lg bg-white p-8"
+              className="w-full space-y-6 rounded-lg bg-white p-6 sm:w-[480px] sm:p-8"
             >
               <H2>Add New Task</H2>
               <TextInput

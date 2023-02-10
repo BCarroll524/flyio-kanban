@@ -11,11 +11,11 @@ const NewBoard = ({ children }: { children: React.ReactNode }) => {
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Dialog.Content className="">
+        <div className="absolute inset-0 flex items-center justify-center px-4">
+          <Dialog.Content className="w-full">
             <Form
               method="post"
-              className="w-[480px] space-y-6 rounded-lg bg-white p-8"
+              className="w-full space-y-6 rounded-lg bg-white p-6 sm:w-[480px] sm:p-8"
             >
               <H2>Add New Board</H2>
               <TextInput

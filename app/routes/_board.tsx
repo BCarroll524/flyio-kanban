@@ -32,7 +32,7 @@ export default function Layout() {
         theme === "dark" ? "dark" : ""
       )}
     >
-      <aside className="flex min-h-screen flex-col border-r border-light-lines bg-white transition-colors duration-200 dark:border-dark-lines dark:bg-dark-gray sm:w-[260px] md:w-[300px]">
+      <aside className="hidden min-h-screen flex-col border-r border-light-lines bg-white transition-colors duration-200 dark:border-dark-lines dark:bg-dark-gray sm:flex sm:w-[260px] md:w-[300px]">
         <div className="mt-8 ml-8">
           <Logo />
         </div>

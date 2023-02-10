@@ -31,7 +31,7 @@ const BoardMenu = ({
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
           <button className="ml-auto outline-none">
-            <EllipsisVerticalIcon className="h-5 w-5 stroke-medium-gray" />
+            <EllipsisVerticalIcon className="h-5 w-5 stroke-medium-gray stroke-2" />
           </button>
         </DropdownMenu.Trigger>
 
@@ -59,12 +59,20 @@ const BoardMenu = ({
       <Dialog.Root open={state !== undefined}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Dialog.Content onInteractOutside={close} onEscapeKeyDown={close}>
-              {state === "edit" ? (
-                <EditBoard id={id} name={name} columns={columns} />
-              ) : null}
-              {state === "delete" ? <DeleteBoard id={id} name={name} /> : null}
+          <div className="absolute inset-0 flex items-center justify-center px-4">
+            <Dialog.Content
+              onInteractOutside={close}
+              onEscapeKeyDown={close}
+              className="w-full"
+            >
+              <>
+                {state === "edit" ? (
+                  <EditBoard id={id} name={name} columns={columns} />
+                ) : null}
+                {state === "delete" ? (
+                  <DeleteBoard id={id} name={name} />
+                ) : null}
+              </>
             </Dialog.Content>
           </div>
         </Dialog.Portal>
@@ -83,7 +91,10 @@ const EditBoard = ({
   columns: string[];
 }) => {
   return (
-    <Form method="post" className="w-[480px] space-y-6 rounded-lg bg-white p-8">
+    <Form
+      method="post"
+      className="w-full space-y-6 rounded-lg bg-white p-6 sm:w-[480px] sm:p-8"
+    >
       <input type="hidden" name="boardId" value={id} />
       <H2>Edit Board</H2>
       <TextInput
@@ -113,7 +124,10 @@ const EditBoard = ({
 
 const DeleteBoard = ({ id, name }: { id: string; name: string }) => {
   return (
-    <Form method="post" className="w-[480px] space-y-6 rounded-lg bg-white p-8">
+    <Form
+      method="post"
+      className="w-full space-y-6 rounded-lg bg-white p-6 sm:w-[480px] sm:p-8"
+    >
       <input type="hidden" name="boardId" value={id} />
       <H2 className="text-red">Delete this board?</H2>
       <Paragraph size="md" className="text-medium-gray">
