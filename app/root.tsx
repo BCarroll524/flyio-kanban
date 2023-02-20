@@ -1,6 +1,11 @@
-import type { ActionArgs, LinksFunction, MetaFunction } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import type {
+  ActionArgs,
+  LinksFunction,
+  LoaderArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { json } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -8,6 +13,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
@@ -19,6 +25,13 @@ import { addNewBoard } from "./models/board.server";
 import { getErrorMessage } from "./utils";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import {
+  NonFlashOfWrongThemeEls,
+  ThemeProvider,
+  useTheme,
+} from "./utils/theme-providers";
+import clsx from "clsx";
+import { getThemeSession } from "./utils/theme.server";
 
 export const links: LinksFunction = () => {
   return [
@@ -36,17 +49,25 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-export default function App() {
+export const loader = async ({ request }: LoaderArgs) => {
+  const themeSession = await getThemeSession(request);
+
+  const theme = themeSession.getTheme();
+  return json({ theme });
+};
+
+function App() {
+  const [theme] = useTheme();
+  const data = useLoaderData<typeof loader>();
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className={clsx(theme, "h-full")}>
       <head>
         <Meta />
         <Links />
+        <NonFlashOfWrongThemeEls ssrTheme={Boolean(data.theme)} />
       </head>
       <body className="h-full">
-        <DndProvider backend={HTML5Backend}>
-          <Outlet />
-        </DndProvider>
+        <Outlet />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -55,11 +76,20 @@ export default function App() {
   );
 }
 
+export default function AppWithProviders() {
+  const data = useLoaderData<typeof loader>();
+  return (
+    <ThemeProvider specifiedTheme={data.theme}>
+      <DndProvider backend={HTML5Backend}>
+        <App />
+      </DndProvider>
+    </ThemeProvider>
+  );
+}
+
 export const action = async ({ request }: ActionArgs) => {
   try {
     const form = new URLSearchParams(await request.text());
-
-    console.log(form);
 
     const name = form.get("name");
     const columnsStr = form.get("new-columns");

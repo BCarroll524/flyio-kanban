@@ -30,7 +30,7 @@ const TextInput = ({
         id={name}
         defaultValue={defaultValue}
         className={clsx(
-          "rounded-[4px] border border-input px-4 py-2 text-md font-medium leading-md text-black placeholder:text-input focus:outline-none  dark:placeholder:text-dark-lines ",
+          "rounded-[4px] border border-input bg-transparent px-4 py-2 text-md font-medium leading-md text-black placeholder:text-input focus:outline-none dark:text-white dark:placeholder:text-dark-lines",
           !error
             ? "focus:ring-2 focus:ring-purple-hover focus:ring-offset-1"
             : "border-red ring-0",

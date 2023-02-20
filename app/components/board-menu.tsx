@@ -38,19 +38,21 @@ const BoardMenu = ({
         <DropdownMenu.Portal>
           <DropdownMenu.Content
             sideOffset={12}
-            className="space-y-2 rounded-full bg-light-bg p-[6px] shadow-md"
+            className="mr-4 space-y-2 rounded-md bg-light-bg p-2 shadow-md dark:bg-dark-bg"
           >
             <DropdownMenu.Item
-              className="group cursor-pointer rounded-full p-[6px] outline-none hover:bg-purple-hover"
+              className="group flex w-fit cursor-pointer items-center gap-2 rounded-md py-[6px] px-2 text-purple outline-none hover:bg-purple-hover hover:text-white"
               onClick={() => setState("edit")}
             >
               <PencilSquareIcon className="h-5 w-5 stroke-purple group-hover:stroke-white" />
+              Edit Board
             </DropdownMenu.Item>
             <DropdownMenu.Item
-              className="group cursor-pointer rounded-full p-[6px] outline-none hover:bg-red-hover"
+              className="group flex w-fit cursor-pointer items-center gap-2 rounded-md py-[6px] px-2 text-red outline-none hover:bg-red-hover hover:text-white"
               onClick={() => setState("delete")}
             >
               <TrashIcon className="h-5 w-5 stroke-red group-hover:stroke-white" />
+              Delete Board
             </DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu.Portal>
@@ -63,7 +65,7 @@ const BoardMenu = ({
             <Dialog.Content
               onInteractOutside={close}
               onEscapeKeyDown={close}
-              className="w-full"
+              className="w-full sm:w-fit"
             >
               <>
                 {state === "edit" ? (
@@ -93,10 +95,10 @@ const EditBoard = ({
   return (
     <Form
       method="post"
-      className="w-full space-y-6 rounded-lg bg-white p-6 sm:w-[480px] sm:p-8"
+      className="w-full space-y-6 rounded-lg bg-white p-6 dark:bg-dark-gray sm:w-[480px] sm:p-8"
     >
       <input type="hidden" name="boardId" value={id} />
-      <H2>Edit Board</H2>
+      <H2 className="text-black dark:text-white">Edit Board</H2>
       <TextInput
         label="Board Name"
         name="name"
@@ -126,7 +128,7 @@ const DeleteBoard = ({ id, name }: { id: string; name: string }) => {
   return (
     <Form
       method="post"
-      className="w-full space-y-6 rounded-lg bg-white p-6 sm:w-[480px] sm:p-8"
+      className="flex w-full flex-col gap-6 rounded-lg bg-white p-6 dark:bg-dark-gray sm:w-[480px] sm:p-8"
     >
       <input type="hidden" name="boardId" value={id} />
       <H2 className="text-red">Delete this board?</H2>

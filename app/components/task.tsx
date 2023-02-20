@@ -53,12 +53,12 @@ const Task = ({
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
         <div className="absolute inset-0 flex items-center justify-center px-4">
-          <Dialog.Content className="w-full">
-            <div className="max-h-[95vh] w-full space-y-6 overflow-y-auto rounded-lg bg-white p-6 sm:w-[480px] sm:p-8">
+          <Dialog.Content className="w-full sm:w-fit">
+            <div className="max-h-[95vh] w-full space-y-6 overflow-y-auto rounded-lg bg-white p-6 dark:bg-dark-gray sm:w-[480px] sm:p-8">
               {state === "view" ? (
                 <>
                   <div className="flex items-center gap-6">
-                    <H2>{title}</H2>
+                    <H2 className="text-black dark:text-white">{title}</H2>
                     <Menu onChange={(val) => setState(val)} />
                   </div>
                   <Paragraph size="md" className="text-medium-gray">
@@ -106,14 +106,14 @@ const Menu = ({ onChange }: { onChange: (val: ModalStates) => void }) => {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button className="ml-auto">
-          <EllipsisVerticalIcon className="h-5 w-5 stroke-medium-gray" />
+          <EllipsisVerticalIcon className="h-5 w-5 fill-medium-gray dark:fill-white" />
         </button>
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           sideOffset={12}
-          className="space-y-2 rounded-full bg-light-bg p-[6px] shadow-md"
+          className="space-y-2 rounded-full bg-light-bg p-[6px] shadow-md dark:bg-dark-bg"
         >
           <DropdownMenu.Item
             className="group cursor-pointer rounded-full p-[6px] hover:bg-purple-hover"
@@ -155,7 +155,7 @@ const EditTask = ({
   const fetcher = useFetcher();
   return (
     <fetcher.Form method="post" className="w-full space-y-6">
-      <H2>Edit Task</H2>
+      <H2 className="text-black dark:text-white">Edit Task</H2>
       <input type="hidden" name="taskId" value={id} />
       <TextInput
         label="Name"

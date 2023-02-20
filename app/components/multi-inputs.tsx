@@ -82,7 +82,7 @@ function MultiInputs({
             }}
             value={input.value}
             placeholder={placeholder}
-            className="flex-1 rounded-[4px] border border-input px-4 py-2 text-md font-medium leading-md text-black placeholder:text-input focus:outline-none focus:ring-2 focus:ring-purple-hover focus:ring-offset-1  dark:placeholder:text-dark-lines"
+            className="flex-1 rounded-[4px] border border-input px-4 py-2 text-md font-medium leading-md text-black placeholder:text-input focus:outline-none focus:ring-2 focus:ring-purple-hover focus:ring-offset-1 dark:bg-transparent dark:text-white dark:placeholder:text-dark-lines"
           />
           <button
             type="button"
@@ -116,7 +116,7 @@ function MultiInputs({
             }}
             value={input.value}
             placeholder={placeholder}
-            className="flex-1 rounded-[4px] border border-input px-4 py-2 text-md font-medium leading-md text-black placeholder:text-input focus:outline-none focus:ring-2 focus:ring-purple-hover focus:ring-offset-1  dark:placeholder:text-dark-lines"
+            className="flex-1 rounded-[4px] border border-input px-4 py-2 text-md font-medium leading-md text-black placeholder:text-input focus:outline-none focus:ring-2 focus:ring-purple-hover focus:ring-offset-1 dark:bg-transparent dark:text-white dark:placeholder:text-dark-lines"
           />
           <button
             type="button"

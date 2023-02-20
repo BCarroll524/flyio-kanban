@@ -26,6 +26,7 @@ import { editBoard, deleteBoard } from "~/models/board.server";
 import { useDrag, useDrop } from "react-dnd";
 import { MobileLogo } from "~/icons/mobile-logo";
 import { BoardSelect } from "~/components/board-select";
+import { useBoards } from "./_board";
 
 type Task = Omit<PrismaTask, "createdAt" | "updatedAt" | "boardId"> & {
   subtasks: Pick<Subtask, "id" | "title" | "completed">[];
@@ -90,8 +91,6 @@ export const loader = async ({ params }: LoaderArgs) => {
 export const action = async ({ request, params }: ActionArgs) => {
   invariant(params.slug, "params.slug is required");
   const form = new URLSearchParams(await request.text());
-
-  console.log({ form });
 
   try {
     const action = form.get("_action");
@@ -257,6 +256,12 @@ export const action = async ({ request, params }: ActionArgs) => {
         message: "Board updated successfully",
       });
     }
+
+    if (action === "change-board") {
+      const slug = form.get("slug");
+      invariant(slug, "slug is required");
+      return redirect(`/${slug}`);
+    }
   } catch (error: unknown) {
     const message = getErrorMessage(error);
     return badRequest({
@@ -340,6 +345,8 @@ export default function Board() {
     }
   };
 
+  const { boards } = useBoards();
+
   return (
     <section className="flex max-h-screen min-h-screen flex-1 flex-col overflow-hidden bg-light-bg transition-colors duration-200 dark:bg-dark-bg">
       <header className="flex items-center justify-between bg-white py-4 px-6 transition-colors duration-200  dark:bg-dark-gray">
@@ -350,7 +357,7 @@ export default function Board() {
           {name}
         </H1>
         <div className="flex-1 px-4 sm:hidden">
-          <BoardSelect name="board" options={[]} />
+          <BoardSelect name={name} boards={boards} />
         </div>
         <div className="flex gap-3 pr-0 sm:pr-6">
           <NewTaskModal columns={Object.keys(columns)} />
@@ -438,7 +445,7 @@ const TaskTile = ({ task }: { task: Task }) => {
   ).length;
   const totalSubtasks = task.subtasks.length;
 
-  const [{ isDragging }, drag, dragPreview] = useDrag(() => ({
+  const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: { id: task.id },
     collect: (monitor) => ({
@@ -449,7 +456,7 @@ const TaskTile = ({ task }: { task: Task }) => {
   return (
     <div className="mx-3 last:pb-6">
       <TaskComponent {...task} columns={Object.keys(columns)}>
-        <button type="button" className="w-full">
+        <button type="button" className="w-full outline-none">
           <article
             ref={drag}
             className={clsx(

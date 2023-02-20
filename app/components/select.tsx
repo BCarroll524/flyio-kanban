@@ -31,7 +31,7 @@ const Dropdown = ({
         <Select.Trigger
           disabled={disabled}
           ref={ref}
-          className="flex items-center rounded-[4px] border border-input px-4 py-2 text-md font-medium leading-md text-black outline-none focus:outline-offset-1 focus:outline-purple-hover"
+          className="flex items-center rounded-[4px] border border-input px-4 py-2 text-md font-medium leading-md text-black outline-none focus:outline-offset-1 focus:outline-purple-hover dark:text-white"
         >
           <Select.Value />
           {!disabled ? (
