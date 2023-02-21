@@ -53,10 +53,10 @@ export default function Layout() {
         variants={asideVariants}
         initial="show"
         animate={showSidebar ? "show" : "hide"}
-        className="absolute"
+        className="absolute bg-white dark:bg-dark-gray"
         transition={{ ease: "easeInOut", duration: 0.2 }}
       >
-        <div className="hidden min-h-screen flex-col border-r border-light-lines bg-white transition-colors duration-200 dark:border-dark-lines dark:bg-dark-gray sm:flex sm:w-[260px] md:w-[300px]">
+        <div className="hidden min-h-screen flex-col border-r border-light-lines bg-white transition-colors duration-200 dark:border-dark-lines dark:bg-dark-gray sm:flex sm:w-[260px]">
           <div className="mt-8 ml-8">
             <Logo />
           </div>
@@ -105,6 +105,16 @@ export default function Layout() {
           </button>
         </div>
       </motion.aside>
+
+      <motion.div
+        variants={mainVariants}
+        initial="show"
+        animate={showSidebar ? "show" : "hide"}
+        className="w-full"
+        transition={{ ease: "easeInOut", duration: 0.2 }}
+      >
+        <Outlet />
+      </motion.div>
       {!showSidebar ? (
         <div className="absolute left-0 bottom-12">
           <button
@@ -115,15 +125,6 @@ export default function Layout() {
           </button>
         </div>
       ) : null}
-      <motion.div
-        variants={mainVariants}
-        initial="show"
-        animate={showSidebar ? "show" : "hide"}
-        className="w-full"
-        transition={{ ease: "easeInOut", duration: 0.2 }}
-      >
-        <Outlet />
-      </motion.div>
     </main>
   );
 }
